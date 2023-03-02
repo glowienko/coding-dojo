@@ -8,6 +8,7 @@ import Fibonacci.calculateFibonacci
 import Fibonacci.calculateFibonacciBottomUp
 import StringChallenges.longestCommonPrefix
 import StringChallenges.longestCommonPrefixWithReduce
+import StringChallenges.longestPalindrome
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
@@ -17,8 +18,13 @@ import kotlin.system.measureTimeMillis
 fun main(args: Array<String>) {
     println("SOLUTIONS:")
     println()
-    println("max profit | dynamic programming")
 
+    println(longestPalindrome("aaaaa"))
+    println(longestPalindrome("kajak"))
+    println(longestPalindrome("kajak") == "kajak")
+    println("------------------------------------------")
+
+    println("max profit | dynamic programming")
     println(maxProfitTwoTransactions(intArrayOf(1, 2, 3, 4, 5)))
     println(maxProfitMultipleTransactions(intArrayOf(7, 1, 5, 3, 6, 4)))
     println(maxProfitFast(intArrayOf(7)))
@@ -28,9 +34,9 @@ fun main(args: Array<String>) {
     val bigRandomArray = IntArray(90100) { Random.nextInt(1, 1000002) }
     println("brute force: ${executeMeasuringTimeMillis { maxProfitSimple(bigRandomArray) }} ms")
     println("fast: ${executeMeasuringTimeMillis { maxProfitFast(bigRandomArray) }} ms")
-    println("multiple transactions: ${executeMeasuringTimeMillis { maxProfitMultipleTransactions(bigRandomArray) }} ms")
+    println("multiple transactions: ${executeMeasuringTimeMillis { maxProfitMultipleTransactions(intArrayOf(1,2,3,4,5)) }} ms")
 
-    println()
+    println("------------------------------------------")
     println()
     println("fibonacci:")
     println(calculateFibonacci(10))
@@ -56,18 +62,4 @@ fun main(args: Array<String>) {
             }
         } ms "
     )
-}
-
-/**
- * Executes given function block returning result and measured execution time in milliseconds.
- */
-@OptIn(ExperimentalContracts::class)
-inline fun <reified T : Any> executeMeasuringTimeMillis(block: () -> T): Pair<T, Long> {
-    contract {
-        callsInPlace(block, InvocationKind.EXACTLY_ONCE)
-    }
-    val start = System.currentTimeMillis()
-    val result = block()
-    val end = System.currentTimeMillis()
-    return Pair(result, end - start)
 }
